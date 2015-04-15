@@ -11,7 +11,7 @@ Download the [zip file](https://github.com/EntelectChallenge/2015-SpaceInvaders-
 The easiest way to compile is to open a Command Prompt, change to your bot folder and run `compile.bat`. This will use SetupTools to fetch your dependencies and build your bot. For details on using SetupTools see the section below...
 
 ## Run
-Once you have compiled you can do a basic test of the bot by simply launching a Command Prompt, changing to the bot directory and running `run.bat`. This will use the example state and map files in the output folder.
+Once you have compiled you can do a basic test of the bot by simply launching a Command Prompt, changing to the bot directory and running `run.bat output`. This will use the example state and map files in the output folder.
 
 ## SetupTools
 If you wish to use 3rd party library dependencies you should include ez_setup.py from [SetupTools](https://pypi.python.org/pypi/setuptools) with your project.

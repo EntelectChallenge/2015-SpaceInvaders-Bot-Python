@@ -2,6 +2,7 @@ import json
 import random
 import sys
 import time
+from os import path
 from easyAI.AI.Negamax import inf
 from easyAI import TwoPlayersGame, AI_Player
 
@@ -26,8 +27,9 @@ class RandomMoveAi:
 
 
 class SpaceInvaders(TwoPlayersGame):
-    def __init__(self, players):
+    def __init__(self, players, outputPath):
         self.players = players
+        self.outputPath = outputPath
         self.score = 0
         self.nplayer = 2  # bot player starts
 
@@ -43,7 +45,7 @@ class SpaceInvaders(TwoPlayersGame):
         ]
 
     def make_move(self, move):
-        move_file = open('output/move.txt', 'w')
+        move_file = open(path.join(self.outputPath, 'move.txt'), 'w')
         move_file.write(move + '\r\n')
         move_file.close()
 
@@ -58,11 +60,11 @@ class SpaceInvaders(TwoPlayersGame):
 
     def show(self):
         # read game map to string
-        with open('output/map.txt', "r") as mapFile:
+        with open(path.join(self.outputPath, 'map.txt'), "r") as mapFile:
             game_map = mapFile.read()
 
         # read game json state to dictionary
-        with open('output/state.json', "r") as stateFile:
+        with open(path.join(self.outputPath, 'state.json'), "r") as stateFile:
             game_state = json.loads(stateFile.read())
 
         # print player number
@@ -93,11 +95,19 @@ def printUsage():
 def main(outputPath):
     doneBot = DonePlayer()
     ai = RandomMoveAi()
-    game = SpaceInvaders([doneBot, AI_Player(ai)])
+    game = SpaceInvaders([doneBot, AI_Player(ai)], outputPath)
     game.play(verbose=False)
 
 if __name__ == '__main__':
     if (len(sys.argv) < 2):
-        printUsage();
+        printUsage()
+        exit(-1)
 
-    main(sys.argv[1])
+    outputPath = sys.argv[1]
+    if (path.exists(outputPath) == False):
+        printUsage()
+        print
+        print 'Error: Output folder "' + sys.argv[1] + '" does not exist.'
+        exit(-1)
+
+    main(outputPath)
